@@ -53,6 +53,6 @@ public class Robot {
     }
 
     public String getFinalState() {
-        return String.valueOf(xPos) + " " + String.valueOf(yPos) + " " + currentDirection.toString();
+        return String.valueOf(xPos) + " " + String.valueOf(yPos) + " " + currentDirection.toString().charAt(0);
     }
 }

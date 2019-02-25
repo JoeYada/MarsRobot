@@ -10,7 +10,7 @@ public class PlanetEngineTest {
 
     @Before
     public void setup() {
-        planetEngine = new PlanetEngine();
+        planetEngine = new PlanetEngine(5, 3);
     }
 
     @Test
@@ -19,4 +19,13 @@ public class PlanetEngineTest {
         Assert.assertEquals("1 1 E", planetEngine
                 .processCommandsAndGetFinalState("RFRFRFRF"));
     }
+
+    @Test
+    public void testLostFunctionality() {
+        planetEngine.initRobot(3, 2, Direction.NORTH);
+        Assert.assertEquals("3 3 N LOST", planetEngine
+        .processCommandsAndGetFinalState("FRRFLLFFRRFLL"));
+    }
+
+
 }

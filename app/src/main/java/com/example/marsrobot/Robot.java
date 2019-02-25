@@ -29,7 +29,9 @@ public class Robot {
     }
 
     public void setCurrentDirection(Direction currentDirection) {
-        this.currentDirection = currentDirection;
+        if (!isLost) {
+            this.currentDirection = currentDirection;
+        }
     }
 
     public int getxPos() {
@@ -37,6 +39,13 @@ public class Robot {
     }
 
     public void setxPos(int xPos) {
+        if(isLost) {
+            return;
+        }
+        if (xPos < currentEdge.getXFloor() || xPos > currentEdge.getXCeiling()) {
+            isLost = true;
+            return;
+        }
         this.xPos = xPos;
     }
 
@@ -45,6 +54,13 @@ public class Robot {
     }
 
     public void setyPos(int yPos) {
+        if(isLost) {
+            return;
+        }
+        if (yPos < currentEdge.getYFloor() || yPos > currentEdge.getYCeiling()) {
+            isLost = true;
+            return;
+        }
         this.yPos = yPos;
     }
 
@@ -59,6 +75,11 @@ public class Robot {
     }
 
     public String getFinalState() {
-        return String.valueOf(xPos) + " " + String.valueOf(yPos) + " " + currentDirection.toString().charAt(0);
+        String result = String.valueOf(xPos) + " " + String.valueOf(yPos) + " " +
+                currentDirection.toString().charAt(0);
+        if (isLost) {
+            result = result +  " LOST";
+        }
+        return result;
     }
 }

@@ -2,14 +2,21 @@ package com.example.marsrobot;
 
 import android.support.annotation.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PlanetEngine {
     @Nullable
     private Robot currentRobot = null;
+    private final Edge currentEdge;
+    private final List<Edge> markedEdges;
 
-
-
+    public PlanetEngine(int upperCoordinate, int rightCoordinate) {
+        markedEdges = new ArrayList<>();
+        currentEdge = new Edge(0, rightCoordinate - 1, 0, upperCoordinate - 1);
+    }
     public void initRobot(int startX, int startY, Direction direction) {
-        currentRobot = new Robot(direction, startX, startY);
+        currentRobot = new Robot(direction, startX, startY, currentEdge, markedEdges);
     }
 
     public String processCommandsAndGetFinalState(String input) {

@@ -10,7 +10,7 @@ public class PlanetEngineTest {
 
     @Before
     public void setup() {
-        planetEngine = new PlanetEngine(5, 3);
+        planetEngine = new PlanetEngine(3, 5);
     }
 
     @Test

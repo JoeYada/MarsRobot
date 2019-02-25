@@ -13,7 +13,7 @@ public class PlanetEngine {
 
     public PlanetEngine(int upperCoordinate, int rightCoordinate) {
         markedEdges = new ArrayList<>();
-        currentEdge = new Edge(0, rightCoordinate - 1, 0, upperCoordinate - 1);
+        currentEdge = new Edge(0, rightCoordinate, 0, upperCoordinate);
     }
     public void initRobot(int startX, int startY, Direction direction) {
         currentRobot = new Robot(direction, startX, startY, currentEdge, markedEdges);

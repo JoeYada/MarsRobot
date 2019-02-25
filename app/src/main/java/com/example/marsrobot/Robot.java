@@ -10,12 +10,18 @@ public class Robot {
     private int xPos;
     private int yPos;
     private final Queue<Command> commands;
+    private boolean isLost;
+    private final Edge currentEdge;
+    private final List<Edge> markedEdges;
 
-    public Robot(Direction currentDirection, int xPos, int yPos) {
+    public Robot(Direction currentDirection, int xPos, int yPos, Edge edge, List<Edge> markedEdges) {
         this.currentDirection = currentDirection;
         this.xPos = xPos;
         this.yPos = yPos;
+        this.currentEdge = edge;
+        this.markedEdges = markedEdges;
         commands = new LinkedList<>();
+        isLost = false;
     }
 
     public Direction getCurrentDirection() {

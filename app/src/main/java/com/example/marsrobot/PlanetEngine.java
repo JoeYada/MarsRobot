@@ -5,18 +5,18 @@ import android.support.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlanetEngine {
+public class PlanetEngine implements Robot.OnRobotLostListener {
     @Nullable
     private Robot currentRobot = null;
     private final Edge currentEdge;
-    private final List<Edge> markedEdges;
+    private final List<Coordinate> markedCoordinates;
 
     public PlanetEngine(int upperCoordinate, int rightCoordinate) {
-        markedEdges = new ArrayList<>();
+        markedCoordinates = new ArrayList<>();
         currentEdge = new Edge(0, rightCoordinate, 0, upperCoordinate);
     }
     public void initRobot(int startX, int startY, Direction direction) {
-        currentRobot = new Robot(direction, startX, startY, currentEdge, markedEdges);
+        currentRobot = new Robot(direction, startX, startY, currentEdge, markedCoordinates, this);
     }
 
     public String processCommandsAndGetFinalState(String input) {
@@ -41,4 +41,8 @@ public class PlanetEngine {
         return currentRobot.getFinalState();
     }
 
+    @Override
+    public void onRobotLost(Coordinate coordinate) {
+        markedCoordinates.add(coordinate);
+    }
 }

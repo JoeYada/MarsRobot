@@ -27,5 +27,17 @@ public class PlanetEngineTest {
         .processCommandsAndGetFinalState("FRRFLLFFRRFLL"));
     }
 
+    @Test
+    public void testLostAndScent() {
+        //Given
+        planetEngine.initRobot(3, 2, Direction.NORTH);
+        planetEngine.processCommandsAndGetFinalState("FRRFLLFFRRFLL");
+        //When
+        planetEngine.initRobot(0, 3, Direction.WEST);
+        //Then
+        Assert.assertEquals("2 3 S", planetEngine
+            .processCommandsAndGetFinalState("LLFFFLFLFL"));
+    }
+
 
 }

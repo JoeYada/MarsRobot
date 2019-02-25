@@ -1,6 +1,5 @@
 package com.example.marsrobot;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -12,14 +11,17 @@ public class Robot {
     private final Queue<Command> commands;
     private boolean isLost;
     private final Edge currentEdge;
-    private final List<Edge> markedEdges;
+    private final List<Coordinate> markedCoordinates;
+    private final OnRobotLostListener listener;
 
-    public Robot(Direction currentDirection, int xPos, int yPos, Edge edge, List<Edge> markedEdges) {
+    public Robot(Direction currentDirection, int xPos, int yPos, Edge edge,
+                 List<Coordinate> markedCoordinates, OnRobotLostListener listener) {
         this.currentDirection = currentDirection;
         this.xPos = xPos;
         this.yPos = yPos;
         this.currentEdge = edge;
-        this.markedEdges = markedEdges;
+        this.markedCoordinates = markedCoordinates;
+        this.listener = listener;
         commands = new LinkedList<>();
         isLost = false;
     }
@@ -42,8 +44,12 @@ public class Robot {
         if(isLost) {
             return;
         }
+        if (isAMarkedCoordinate(xPos, true)) {
+            return;
+        }
         if (xPos < currentEdge.getXFloor() || xPos > currentEdge.getXCeiling()) {
             isLost = true;
+            listener.onRobotLost(new Coordinate(xPos, -100));
             return;
         }
         this.xPos = xPos;
@@ -57,8 +63,12 @@ public class Robot {
         if(isLost) {
             return;
         }
+        if (isAMarkedCoordinate(yPos, false)) {
+            return;
+        }
         if (yPos < currentEdge.getYFloor() || yPos > currentEdge.getYCeiling()) {
             isLost = true;
+            listener.onRobotLost(new Coordinate(-100, yPos));
             return;
         }
         this.yPos = yPos;
@@ -81,5 +91,21 @@ public class Robot {
             result = result +  " LOST";
         }
         return result;
+    }
+
+    private boolean isAMarkedCoordinate(int pos, boolean isX) {
+        for (Coordinate coordinate : markedCoordinates) {
+            if (isX &&coordinate.getXPos() == pos) {
+                return true;
+            }
+            if (!isX && coordinate.getYPos() == pos) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    interface OnRobotLostListener {
+        void onRobotLost(Coordinate coordinate);
     }
 }
